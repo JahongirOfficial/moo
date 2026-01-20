@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? `http://${window.location.hostname}:3001/api`
-  : `https://${window.location.hostname}/api`;
+  : `${window.location.protocol}//${window.location.hostname}/api`;
 
 export function BoshSahifa() {
   const [sections, setSections] = useState<any[]>([]);
@@ -264,7 +264,7 @@ export function BoshSahifa() {
             </div>
           </div>
           <div className="border-t border-slate-800 pt-6 sm:pt-8 text-center text-slate-500 text-xs sm:text-sm">
-            <p>© 2024 Mukammal Ota Ona</p>
+            <p>© 2026 Mukammal Ota Ona</p>
           </div>
           
           {/* SEO - Kirill alifbosi uchun yashirin matn (Google indekslashi uchun) */}
