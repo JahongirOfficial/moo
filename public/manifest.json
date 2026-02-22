@@ -1,0 +1,38 @@
+{
+  "name": "Mukammal Ota Ona",
+  "short_name": "Mukammal",
+  "description": "Farzand tarbiyasida ishonchli yordamchingiz",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#30B464",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/uploads/logo/pwa.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/uploads/logo/pwa.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/uploads/logo/gr.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/uploads/logo/gr.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "lifestyle"],
+  "lang": "uz"
+}
