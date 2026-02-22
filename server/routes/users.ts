@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { User } from '../db';
-import { isAdmin, AuthRequest } from '../middleware/auth';
+import { authenticateToken, isAdmin, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
 // Get all users (admin only)
-router.get('/', isAdmin, async (req: AuthRequest, res) => {
+router.get('/', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const users = await User.find({ role: 'user' })
       .select('-password')
@@ -29,7 +29,7 @@ router.get('/', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Get single user (admin only)
-router.get('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.get('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
     if (!user) {
@@ -43,7 +43,7 @@ router.get('/:id', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Update user subscription (admin only)
-router.put('/:id/subscription', isAdmin, async (req: AuthRequest, res) => {
+router.put('/:id/subscription', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const { isSubscribed, days } = req.body;
 
@@ -77,7 +77,7 @@ router.put('/:id/subscription', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Delete user (admin only)
-router.delete('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.delete('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
@@ -91,7 +91,7 @@ router.delete('/:id', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Get current user subscription status
-router.get('/me/subscription', async (req: AuthRequest, res) => {
+router.get('/me/subscription', authenticateToken, async (req: AuthRequest, res) => {
   try {
     const user = await User.findById(req.user?.id).select('-password');
     if (!user) {

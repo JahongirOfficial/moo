@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-import { isAdmin, AuthRequest } from '../middleware/auth';
+import { authenticateToken, isAdmin, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
@@ -50,7 +50,7 @@ const upload = multer({
 });
 
 // Upload video (admin only)
-router.post('/video', isAdmin, upload.single('video'), async (req: AuthRequest, res) => {
+router.post('/video', authenticateToken, isAdmin, upload.single('video'), async (req: AuthRequest, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Video fayl yuklanmadi' });
@@ -72,7 +72,7 @@ router.post('/video', isAdmin, upload.single('video'), async (req: AuthRequest, 
 });
 
 // Delete video (admin only)
-router.delete('/video/:filename', isAdmin, async (req: AuthRequest, res) => {
+router.delete('/video/:filename', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const filePath = path.join(uploadsDir, req.params.filename);
     

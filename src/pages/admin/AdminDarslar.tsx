@@ -55,15 +55,25 @@ export function AdminDarslar() {
     const file = e.target.files?.[0];
     if (!file) return;
     
+    // Fayl hajmini tekshirish
+    const maxSize = 500 * 1024 * 1024; // 500MB
+    if (file.size > maxSize) {
+      alert('Video hajmi 500MB dan oshmasligi kerak');
+      return;
+    }
+    
     setUploading(true);
     setUploadProgress(0);
     
     try {
-      const res = await uploadAPI.uploadVideo(file);
+      const res = await uploadAPI.uploadVideo(file, (progress) => {
+        setUploadProgress(progress);
+      });
       setForm({ ...form, videoUrl: res.data.videoUrl });
-      setUploadProgress(100);
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Video yuklashda xatolik');
+      console.error('Video yuklash xatosi:', err);
+      const errorMsg = err.response?.data?.error || err.message || 'Video yuklashda xatolik';
+      alert(`Xatolik: ${errorMsg}`);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

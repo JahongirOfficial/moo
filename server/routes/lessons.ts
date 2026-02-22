@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Category, Lesson, Section } from '../db';
-import { isAdmin, AuthRequest } from '../middleware/auth';
+import { authenticateToken, isAdmin, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
@@ -77,7 +77,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create lesson (admin only)
-router.post('/', isAdmin, async (req: AuthRequest, res) => {
+router.post('/', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const { categoryId, title, content, duration, type, videoUrl, savollar, xulosa } = req.body;
 
@@ -114,7 +114,7 @@ router.post('/', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Update lesson (admin only)
-router.put('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.put('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const { title, content, duration, type, orderIndex, videoUrl, savollar, xulosa } = req.body;
 
@@ -136,7 +136,7 @@ router.put('/:id', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Delete lesson (admin only)
-router.delete('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.delete('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const lesson = await Lesson.findByIdAndDelete(req.params.id);
     if (!lesson) {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Category, Lesson } from '../db';
-import { isAdmin, AuthRequest } from '../middleware/auth';
+import { authenticateToken, isAdmin, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
@@ -49,7 +49,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create category (admin only)
-router.post('/', isAdmin, async (req: AuthRequest, res) => {
+router.post('/', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const { sectionId, name, description, icon, color, orderIndex, status } = req.body;
 
@@ -84,7 +84,7 @@ router.post('/', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Update category (admin only)
-router.put('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.put('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const { sectionId, name, description, icon, color, orderIndex, status } = req.body;
 
@@ -106,7 +106,7 @@ router.put('/:id', isAdmin, async (req: AuthRequest, res) => {
 });
 
 // Delete category (admin only)
-router.delete('/:id', isAdmin, async (req: AuthRequest, res) => {
+router.delete('/:id', authenticateToken, isAdmin, async (req: AuthRequest, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (!category) {
